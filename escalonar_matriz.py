@@ -26,21 +26,31 @@ class Escalonador():
             print('Numero da linha fora do range')
 
     def escalonar(self):
-        i = 0
-        for linha in self.matriz_final:
-            pivo = self.getPivo(i)
-            coluna = self.getColuna(i)
-            coef = self.escolher_coef(coluna, i)
-            print ('Linha {0}: {1}, pivo: {2}, coluna: {3}, coef: {4}'.format(i, linha, pivo, coluna, coef))
-            if i != 0:
-                self.matriz_final[i] = 
+        i = 1
+        j = 0
+        for linha in self.matriz_final[1:]:
+            for elem in linha:
+                if elem !=0 and j < i:
+                    pivo_ant = self.getPivo(i-1)
+                    linha_res = pivo_ant * self.matriz_final[i] - elem * self.matriz_final[i-1]
+                    self.matriz_final = np.delete(self.matriz_final, i,0)
+                    self.matriz_final = np.insert(self.matriz_final, i, linha_res, axis=0)
+                    print (self.matriz_final)
+                    self.escalonar()
+                elif elem == 0 and j==i-1:
+                    break
+                elif elem ==0 and j<i:
+                    pass
+                j+=1
+
+            #print ('Linha {0}: {1}, pivo ant: {2}'.format(i, linha, coluna, coef))
             i+=1
 
     def escolher_coef(self, col, index):
-        for i in col[index:]:
-            if i != 0:
+        for coef in col[index:]:
+            if coef!= 0:
                 break
-        return i
+        return coef
 
 matriz_e = Escalonador(arq)
 print(matriz_e.matriz_final)
