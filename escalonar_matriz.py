@@ -3,8 +3,6 @@ import numpy as np
 
 arq = open('in.txt','rt').read()
 
-print (arq)
-
 class Escalonador():
     def __init__(self, matriz_orig):
         self.matriz_orig = matriz_orig
@@ -18,19 +16,32 @@ class Escalonador():
             matriz_f.append(linha_int)
         self.matriz_final = np.array(matriz_f)
 
-    def print_matriz(self):
-        print(self.matriz_final)
-
     def getColuna(self, col):
-        coluna = []
-        for linha in self.matriz_final:
-            try:
-                coluna.append(linha[col])
-            except:
-                print('Numero da coluna fora do range')
-        return coluna
+        return np.array(self.matriz_final[:,col])
 
+    def getPivo(self, linha):
+        try:
+            return self.matriz_final[linha,linha]
+        except:
+            print('Numero da linha fora do range')
+
+    def escalonar(self):
+        i = 0
+        for linha in self.matriz_final:
+            pivo = self.getPivo(i)
+            coluna = self.getColuna(i)
+            coef = self.escolher_coef(coluna, i)
+            print ('Linha {0}: {1}, pivo: {2}, coluna: {3}, coef: {4}'.format(i, linha, pivo, coluna, coef))
+            if i != 0:
+                self.matriz_final[i] = 
+            i+=1
+
+    def escolher_coef(self, col, index):
+        for i in col[index:]:
+            if i != 0:
+                break
+        return i
 
 matriz_e = Escalonador(arq)
-matriz_e.print_matriz()
-print(matriz_e.getColuna(2))
+print(matriz_e.matriz_final)
+matriz_e.escalonar()
