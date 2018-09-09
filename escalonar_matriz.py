@@ -39,13 +39,14 @@ class Escalonador():
     def escalonar(self):
         #inicio as variaveis contadoras. i = linha (começa com 1 pois quero escalonar apenas as linhas 1 em diante). j= elemento que precisa ser zerado
         i = 1
-        j = 0
         #percorre cada linha da matriz_final a partir da linha 1, pois não escalonamos a linha 1
         for linha in self.matriz_final[1:]:
             #percorre cada elemento da linha a ser escalonada a procura de um elemento diferente de 0 e que vem antes do pivo daquela linha
+            j = 0
             for elem in linha:
                 if elem !=0 and j < i:
                     coluna = self.getColuna(j)
+                    print(coluna)
                     #mais detalhes da func escolher_coef no codigo dela.
                     coefi, linha_esc = self.escolher_coef(coluna[:i])
                     print('formula: {0} * {1} - {2} * {3}'.format(coefi, self.matriz_final[i], elem, self.matriz_final[linha_esc]))
