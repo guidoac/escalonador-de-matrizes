@@ -56,13 +56,19 @@ class Escalonador():
                     #troco a linha_res pela linha a ser substituida na matriz_final. E executo a função da forma recursiva para finalizar a matriz.
                     print (self.matriz_final)
                     self.escalonar()
-                elif elem == 0 and j==i-1:
-                    break
-                else:
+                elif elem == 0 and j<i:
+                    j+=1
                     pass
-                j+=1
+                else:
+                    break
 
             i+=1
+            if i > len(self.matriz_final):
+                print('------------------ escalonamento terminado ---------------------')
+                break
+            else:
+                pass
+
 
 matriz_e = Escalonador(arq)
 print(matriz_e.matriz_final)
