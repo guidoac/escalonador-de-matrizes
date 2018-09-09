@@ -62,11 +62,11 @@ class Escalonador():
                     self.escalonar()
                 elif elem == 0 and j == i-1:
                     break
-                elif elem == 0 and j < i:
-                    j+=1
+                elif j < i:
+                    print('cond elem == 0 or j < i')
                     pass
-                elif i <= len (self.matriz_final) and j == i - 1:
-                    return
+                j+=1
+
             i+=1
 
 
