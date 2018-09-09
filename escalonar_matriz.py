@@ -47,28 +47,30 @@ class Escalonador():
             #percorre cada elemento da linha a ser escalonada a procura de um elemento diferente de 0 e que vem antes do pivo daquela linha
             j = 0
             for elem in linha:
+                print ('verificando i: {0}, j: {1}, elemento p/ zerar: {2}'.format(i,j, elem))
                 if elem !=0:
                     coluna = self.getColuna(j)
                     pivo = self.getPivo(j)
-                    print(coluna)
                     print('formula: {0} * {1} - {2} * {3}'.format(pivo, self.matriz_final[i], elem, self.matriz_final[j]))
                     #linha_res é a linha que vai substituir na matriz. com as devidas operações feitas para zerar seus elementos que precisam ser zerados
                     linha_res = pivo * self.matriz_final[i] - elem * self.matriz_final[j]
                     self.matriz_final = np.delete(self.matriz_final, i,0)
                     self.matriz_final = np.insert(self.matriz_final, i, linha_res, axis=0)
                     #troco a linha_res pela linha a ser substituida na matriz_final. E executo a função da forma recursiva para finalizar a matriz.
-                    print ('i = {0}, j = {1}'.format(i, j))
                     print (self.matriz_final)
                     self.escalonar()
-                elif elem == 0 and j == i-1:
-                    break
-                elif j < i:
-                    print('cond elem == 0 or j < i')
-                    pass
-                j+=1
-
+                else:
+                    j+=1
+                    if j == i:
+                        break
+                    else:
+                        pass
+            print('qtd de linha: {0}, i: {1}'.format(self.matriz_final.shape[0], i))
+               
             i+=1
-
+            
+            
+            
 
 matriz_e = Escalonador(arq)
 print(matriz_e.matriz_final)
