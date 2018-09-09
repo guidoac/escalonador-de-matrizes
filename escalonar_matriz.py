@@ -46,13 +46,11 @@ class Escalonador():
             for elem in linha:
                 if elem !=0 and j < i:
                     coluna = self.getColuna(j)
+                    pivo = self.getPivo(j)
                     print(coluna)
-                    #mais detalhes da func escolher_coef no codigo dela.
-                    coefi, linha_esc = self.escolher_coef(coluna[:i])
-                    print('formula: {0} * {1} - {2} * {3}'.format(coefi, self.matriz_final[i], elem, self.matriz_final[linha_esc]))
-                    pivo_ant = self.getPivo(i-1)
+                    print('formula: {0} * {1} - {2} * {3}'.format(pivo, self.matriz_final[i], elem, self.matriz_final[j]))
                     #linha_res é a linha que vai substituir na matriz. com as devidas operações feitas para zerar seus elementos que precisam ser zerados
-                    linha_res = coefi * self.matriz_final[i] - elem * self.matriz_final[linha_esc]
+                    linha_res = pivo * self.matriz_final[i] - elem * self.matriz_final[j]
                     self.matriz_final = np.delete(self.matriz_final, i,0)
                     self.matriz_final = np.insert(self.matriz_final, i, linha_res, axis=0)
                     #troco a linha_res pela linha a ser substituida na matriz_final. E executo a função da forma recursiva para finalizar a matriz.
@@ -65,22 +63,6 @@ class Escalonador():
                 j+=1
 
             i+=1
-    #função escolher_coef recebe como parametro a coluna do elemento que precisa ser zerado até o elemento imediatamento acima deste.
-    #função que possi um retorno duplo, que é o coef que vai ser usado na equação e a linha deste coef.
-    #percorro a coluna de forma reversa pois é necessário que o coef seja o ultimo elemento não zero da coluna
-    def escolher_coef(self, col):
-        if len(list(col)) == 0:
-            return col
-        else:
-            linha_esc = len(col)
-            for coef in reversed(col):
-                if coef == 0:
-                    pass
-                else:
-                    linha_esc-=1
-                    break
-                linha_esc-=1
-            return coef, linha_esc
 
 matriz_e = Escalonador(arq)
 print(matriz_e.matriz_final)
