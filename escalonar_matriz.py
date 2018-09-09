@@ -32,7 +32,8 @@ class Escalonador():
             for elem in linha:
                 if elem !=0 and j < i:
                     coluna = self.getColuna(j)
-                    coefi, linha_esc = self.escolher_coef(coluna, i)
+                    print(coluna,  coluna[:i], i , j)
+                    coefi, linha_esc = self.escolher_coef(coluna[:i])
                     print('formula: {0} * {1} - {2} * {3}'.format(coefi, self.matriz_final[i], elem, self.matriz_final[linha_esc]))
                     pivo_ant = self.getPivo(i-1)
                     linha_res = coefi * self.matriz_final[i] - elem * self.matriz_final[linha_esc]
@@ -49,11 +50,19 @@ class Escalonador():
             #print ('Linha {0}: {1}, pivo ant: {2}'.format(i, linha, coluna, coef))
             i+=1
 
-    def escolher_coef(self, col, linha_atual):
-        if len(col) == 1:
+    def escolher_coef(self, col):
+        if len(list(col)) == 0:
             return col
         else:
-
+            linha_esc = len(col)
+            for coef in reversed(col):
+                if coef == 0:
+                    pass
+                else:
+                    linha_esc-=1
+                    break
+                linha_esc-=1
+            print('coef: {0}, linha escolhida: {1}: {2}'.format(coef, linha_esc, self.matriz_final[linha_esc]))
             return coef, linha_esc
 
 matriz_e = Escalonador(arq)
