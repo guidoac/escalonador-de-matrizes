@@ -60,15 +60,20 @@ class Escalonador():
                     print (self.matriz_final)
                     self.escalonar()
                 else:
-                    j+=1
-                    if j == i:
+                    if j == i - 1:
                         break
                     else:
                         pass
+                j+=1
+            if j == self.matriz_final.shape[0]:
+                break
+            else:
+                i+=1
+                pass
             print('qtd de linha: {0}, i: {1}'.format(self.matriz_final.shape[0], i))
                
-            i+=1
             
+        print('-------------')
             
             
 
