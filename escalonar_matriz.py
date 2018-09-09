@@ -48,7 +48,7 @@ class Escalonador():
             j = 0
             for elem in linha:
                 print ('verificando i: {0}, j: {1}, elemento p/ zerar: {2}'.format(i,j, elem))
-                if elem !=0:
+                if elem !=0 and j < i:
                     coluna = self.getColuna(j)
                     pivo = self.getPivo(j)
                     print('formula: {0} * {1} - {2} * {3}'.format(pivo, self.matriz_final[i], elem, self.matriz_final[j]))
@@ -60,7 +60,7 @@ class Escalonador():
                     print (self.matriz_final)
                     self.escalonar()
                 else:
-                    if j == i - 1:
+                    if j == i:
                         break
                     else:
                         pass
@@ -70,12 +70,8 @@ class Escalonador():
             else:
                 i+=1
                 pass
-            print('qtd de linha: {0}, i: {1}'.format(self.matriz_final.shape[0], i))
-               
-            
-        print('-------------')
-            
-            
+            print('qtd de linha: {0}, i: {1}'.format(self.matriz_final.shape[0], i))   
+        
 
 matriz_e = Escalonador(arq)
 print(matriz_e.matriz_final)
