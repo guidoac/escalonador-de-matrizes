@@ -41,13 +41,10 @@ class Escalonador():
 
     def escalonar(self):
         #inicio as variaveis contadoras. i = linha (começa com 1 pois quero escalonar apenas as linhas 1 em diante). j= elemento que precisa ser zerado
-        i = 1
         #percorre cada linha da matriz_final a partir da linha 1, pois não escalonamos a linha 1
-        for linha in self.matriz_final[1:]:
+        for i, linha in enumerate(self.matriz_final[1:], start = 1):
             #percorre cada elemento da linha a ser escalonada a procura de um elemento diferente de 0 e que vem antes do pivo daquela linha
-            j = 0
-            for elem in linha:
-                print ('verificando i: {0}, j: {1}, elemento p/ zerar: {2}'.format(i,j, elem))
+            for j, elem in enumerate(linha):
                 if elem !=0 and j < i:
                     coluna = self.getColuna(j)
                     pivo = self.getPivo(j)
@@ -61,16 +58,12 @@ class Escalonador():
                     self.escalonar()
                 else:
                     if j == i:
+                        print ('i: {0}, j: {1} '.format(i, j))
                         break
                     else:
                         pass
-                j+=1
-            if j == self.matriz_final.shape[0]:
-                break
-            else:
-                i+=1
-                pass
-            print('qtd de linha: {0}, i: {1}'.format(self.matriz_final.shape[0], i))   
+
+        print('------- finalizado ---------')   
         
 
 matriz_e = Escalonador(arq)
