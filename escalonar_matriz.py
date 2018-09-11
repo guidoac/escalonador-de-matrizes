@@ -13,7 +13,6 @@ classe Escalonador possi como entrada no construtor a str formatada no in.txt.
 ::func:: getColuna - Função que retorna uma instancia de um array numPy da coluna col da matriz_final
 ::func:: getPivo - Função que recebe como parametro a linha da matriz_final que deseja obter o pivo. Retorna um int.
 ::func:: escalonar - Função que faz todo o processo de escalonamento da matriz_final junto com a função escolher_coef. Detalhes no código.
-::func:: escolher_coef - Auxilia no escalonamento da matriz_final
 '''
 class Escalonador():
     def __init__(self, matriz_orig):
@@ -42,10 +41,10 @@ class Escalonador():
             arq_s.write('Numero da linha fora do range')
 
     def escalonar(self):
-        #inicio as variaveis contadoras. i = linha (começa com 1 pois quero escalonar apenas as linhas 1 em diante). j= elemento que precisa ser zerado
-        #percorre cada linha da matriz_final a partir da linha 1, pois não escalonamos a linha 1
+        #inicio as variaveis contadoras. i = linha j = coluna
+        #percorre cada linha da matriz para escalonar e zerar os elementos anteriores ao pivo desta linha
         for i in range(len(self.matriz_final)):
-            #percorre cada elemento da linha a ser escalonada a procura de um elemento diferente de 0 e que vem antes do pivo daquela linha
+            #percorre cada elemento da linha a ser escalonada a procura de um elemento diferente de 0 e que vem antes do pivo daquela linha para fazer os cálculos, gravar na matriz e zerar o elemento
             for j in range(self.matriz_final.shape[0]):
                 if self.matriz_final[i][j] !=0 and j < i:
                     print('elemento para zerar: {0} | linha: {1} coluna: {2}|'.format(self.matriz_final[i][j], i+1,j+1))
@@ -65,8 +64,10 @@ class Escalonador():
                     arq_s.write('{0}\n{1}'.format(self.matriz_final[0], self.matriz_final))
                 else:
                     if j == i:
+                        #se cair aqui, quer dizer que o elemento j-1 da linha i é zero e ele é o ultimo elemento antes do pivo, muda de linha
                         break
                     if j < i:
+                        #se cair aqui, quer dizer que o elemento j-1 da linha i é zero porém este não e o ultimo elemento antes do pivo, continua na mesma linha
                         pass
         print('---------------------------- ESCALONAMENTO FINALIZADO! ----------------------------')
         arq_s.write('\n---------------------------- ESCALONAMENTO FINALIZADO! ----------------------------')
