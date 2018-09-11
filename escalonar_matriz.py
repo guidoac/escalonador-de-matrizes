@@ -3,6 +3,7 @@ import numpy as np
 
 #ler arquivo e transforma em str
 arq = open('in.txt','rt').read()
+arq_s = open('out.txt', 'w')
 
 '''
 classe Escalonador possi como entrada no construtor a str formatada no in.txt.
@@ -28,7 +29,6 @@ class Escalonador():
         self.matriz_final = np.array(matriz_f)
         self.qtd_linhas = self.matriz_final.shape[0]
         self.qtd_colunas = self.matriz_final.shape[1]
-        print('shape: {}'.format(self.matriz_final.shape))
 
 
     def getColuna(self, col):
@@ -39,6 +39,7 @@ class Escalonador():
             return self.matriz_final[linha,linha]
         except:
             print('Numero da linha fora do range')
+            arq_s.write('Numero da linha fora do range')
 
     def escalonar(self):
         #inicio as variaveis contadoras. i = linha (começa com 1 pois quero escalonar apenas as linhas 1 em diante). j= elemento que precisa ser zerado
@@ -48,24 +49,30 @@ class Escalonador():
             for j in range(self.matriz_final.shape[0]):
                 if self.matriz_final[i][j] !=0 and j < i:
                     print('elemento para zerar: {0} | linha: {1} coluna: {2}|'.format(self.matriz_final[i][j], i+1,j+1))
+                    arq_s.write('\nelemento para zerar: {0} | linha: {1} coluna: {2}|'.format(self.matriz_final[i][j], i+1,j+1))
                     coluna = self.getColuna(j)
                     pivo = self.getPivo(j)
                     print('formula: {0} * {1} - {2} * {3}'.format(pivo, self.matriz_final[i], self.matriz_final[i][j], self.matriz_final[j]))
+                    arq_s.write('\nformula: {0} * {1} - {2} * {3}'.format(pivo, self.matriz_final[i], self.matriz_final[i][j], self.matriz_final[j]))
                     print()
+                    arq_s.write('')
                     #linha_res é a linha que vai substituir na matriz. com as devidas operações feitas para zerar seus elementos que precisam ser zerados
                     linha_res = pivo * self.matriz_final[i] - self.matriz_final[i][j] * self.matriz_final[j]
                     self.matriz_final = np.delete(self.matriz_final, i,0)
                     self.matriz_final = np.insert(self.matriz_final, i, linha_res, axis=0)
                     #troco a linha_res pela linha a ser substituida na matriz_final. E executo a função da forma recursiva para finalizar a matriz.
                     print (self.matriz_final)
+                    arq_s.write('{0}\n{1}'.format(self.matriz_final[0], self.matriz_final))
                 else:
                     if j == i:
                         break
                     if j < i:
                         pass
         print('---------------------------- ESCALONAMENTO FINALIZADO! ----------------------------')
-
+        arq_s.write('\n---------------------------- ESCALONAMENTO FINALIZADO! ----------------------------')
 
 matriz_e = Escalonador(arq)
 print(matriz_e.matriz_final)
+arq_s.write('{0}'.format(matriz_e.matriz_final))
 matriz_e.escalonar()
+arq_s.close()
