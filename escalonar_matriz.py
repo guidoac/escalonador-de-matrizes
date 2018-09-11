@@ -43,27 +43,28 @@ class Escalonador():
     def escalonar(self):
         #inicio as variaveis contadoras. i = linha (começa com 1 pois quero escalonar apenas as linhas 1 em diante). j= elemento que precisa ser zerado
         #percorre cada linha da matriz_final a partir da linha 1, pois não escalonamos a linha 1
-        for i, linha in enumerate(self.matriz_final[1:], start = 1):
+        for i in range(len(self.matriz_final)):
             #percorre cada elemento da linha a ser escalonada a procura de um elemento diferente de 0 e que vem antes do pivo daquela linha
-            for j, elem in enumerate(linha):
-                if elem !=0 and j < i:
+            print('linha: {}'.format(self.matriz_final[i]))
+            for j in range(self.matriz_final.shape[0]):
+                if self.matriz_final[i][j] !=0 and j < i:
+                    print('self.matriz_final[i,j]: {0}, i: {1}, j: {2}'.format(self.matriz_final[i][j], i,j))
                     coluna = self.getColuna(j)
                     pivo = self.getPivo(j)
-                    print('formula: {0} * {1} - {2} * {3}'.format(pivo, self.matriz_final[i], elem, self.matriz_final[j]))
+                    print('formula: {0} * {1} - {2} * {3}'.format(pivo, self.matriz_final[i], self.matriz_final[i][j], self.matriz_final[j]))
                     #linha_res é a linha que vai substituir na matriz. com as devidas operações feitas para zerar seus elementos que precisam ser zerados
-                    linha_res = pivo * self.matriz_final[i] - elem * self.matriz_final[j]
+                    linha_res = pivo * self.matriz_final[i] - self.matriz_final[i][j] * self.matriz_final[j]
                     self.matriz_final = np.delete(self.matriz_final, i,0)
                     self.matriz_final = np.insert(self.matriz_final, i, linha_res, axis=0)
                     #troco a linha_res pela linha a ser substituida na matriz_final. E executo a função da forma recursiva para finalizar a matriz.
                     print (self.matriz_final)
-                    self.escalonar()
                 else:
                     if j == i:
                         print ('i: {0}, j: {1} '.format(i, j))
                         break
-                    else:
+                    if j < i:
                         pass
-        print('------- finalizado ---------')   
+        print('------- finalizado ---------')
 
 
 matriz_e = Escalonador(arq)
