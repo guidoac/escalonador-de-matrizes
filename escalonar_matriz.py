@@ -10,7 +10,6 @@ classe Escalonador possi como entrada no construtor a str formatada no in.txt.
 
 ::attr:: matriz_orig - É a matriz lida no arquivo original in.txt, o atribudo é apenas a str lida
 ::attr:: matriz_final - É a matriz que vai ser mostrada a cada ciclo do escalonamento. Com as devidas formatações e em lista.
-::func:: getColuna - Função que retorna uma instancia de um array numPy da coluna col da matriz_final
 ::func:: getPivo - Função que recebe como parametro a linha da matriz_final que deseja obter o pivo. Retorna um int.
 ::func:: escalonar - Função que faz todo o processo de escalonamento da matriz_final junto com a função escolher_coef. Detalhes no código.
 '''
@@ -26,16 +25,18 @@ class Escalonador():
                 linha_int.append(int(elem))
             matriz_f.append(linha_int)
         self.matriz_final = np.array(matriz_f)
-        self.qtd_linhas = self.matriz_final.shape[0]
-        self.qtd_colunas = self.matriz_final.shape[1]
-
-
-    def getColuna(self, col):
-        return np.array(self.matriz_final[:,col])
+        self.dim = self.matriz_final.shape
+        print(self.matriz_final)
+        arq_s.write('{}\n'.format(self.matriz_final))
+        print('Dimensões da Matriz: {}'.format(self.dim))
+        arq_s.write('Dimensões da Matriz: {}'.format(self.dim))
+        print()
+        arq_s.write('\n')
 
     def getPivo(self, linha):
         try:
-            return self.matriz_final[linha,linha]
+            pivo = self.matriz_final[linha,linha]
+            return pivo
         except:
             print('Numero da linha fora do range')
             arq_s.write('Numero da linha fora do range')
@@ -46,22 +47,21 @@ class Escalonador():
         for i in range(len(self.matriz_final)):
             #percorre cada elemento da linha a ser escalonada a procura de um elemento diferente de 0 e que vem antes do pivo daquela linha para fazer os cálculos, gravar na matriz e zerar o elemento
             for j in range(self.matriz_final.shape[0]):
-                if self.matriz_final[i][j] !=0 and j < i:
+                if self.matriz_final[i,j] !=0 and j < i:
                     print('elemento para zerar: {0} | linha: {1} coluna: {2}|'.format(self.matriz_final[i][j], i+1,j+1))
                     arq_s.write('\nelemento para zerar: {0} | linha: {1} coluna: {2}|'.format(self.matriz_final[i][j], i+1,j+1))
-                    coluna = self.getColuna(j)
                     pivo = self.getPivo(j)
                     print('formula: {0} * {1} - {2} * {3}'.format(pivo, self.matriz_final[i], self.matriz_final[i][j], self.matriz_final[j]))
                     arq_s.write('\nformula: {0} * {1} - {2} * {3}'.format(pivo, self.matriz_final[i], self.matriz_final[i][j], self.matriz_final[j]))
                     print()
-                    arq_s.write('')
+                    arq_s.write('\n')
                     #linha_res é a linha que vai substituir na matriz. com as devidas operações feitas para zerar seus elementos que precisam ser zerados
-                    linha_res = pivo * self.matriz_final[i] - self.matriz_final[i][j] * self.matriz_final[j]
+                    linha_res = pivo * self.matriz_final[i] - self.matriz_final[i,j] * self.matriz_final[j]
                     self.matriz_final = np.delete(self.matriz_final, i,0)
                     self.matriz_final = np.insert(self.matriz_final, i, linha_res, axis=0)
                     #troco a linha_res pela linha a ser substituida na matriz_final. E executo a função da forma recursiva para finalizar a matriz.
                     print (self.matriz_final)
-                    arq_s.write('{0}\n{1}'.format(self.matriz_final[0], self.matriz_final))
+                    arq_s.write('{0}\n'.format(self.matriz_final))
                 else:
                     if j == i:
                         #se cair aqui, quer dizer que o elemento j-1 da linha i é zero e ele é o ultimo elemento antes do pivo, muda de linha
@@ -72,8 +72,6 @@ class Escalonador():
         print('---------------------------- ESCALONAMENTO FINALIZADO! ----------------------------')
         arq_s.write('\n---------------------------- ESCALONAMENTO FINALIZADO! ----------------------------')
 
-matriz_e = Escalonador(arq)
-print(matriz_e.matriz_final)
-arq_s.write('{0}'.format(matriz_e.matriz_final))
-matriz_e.escalonar()
+matriz = Escalonador(arq)
+matriz.escalonar()
 arq_s.close()
