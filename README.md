@@ -1,1 +1,1 @@
-# escalonar de matrizes
+# escalonador de matrizes automático em python
